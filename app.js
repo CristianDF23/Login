@@ -43,11 +43,11 @@ const product = new ProductManager()
 const app = express()
 
 app.get('/', (req, res) => {
-    res.send(`<h1 style ='color: blue'>Bienvenidos a CastleSport</h1>`)
+    res.send(`<h1 style ='color: blue'>Bienvenidos</h1>`)
 })
 
 app.get('/products', async (req, res) => {
-    let limit = req.query.limit
+    let {limit} = req.query
     if (!limit) {
         let allProducts = await product.getProducts()
         res.send(allProducts)
@@ -58,12 +58,10 @@ app.get('/products', async (req, res) => {
 })
 
 app.get('/products/:pid', async (req, res) => {
-    let pids = req.params.pid
-    let prodById = await product.getProductById(parseInt(pids))
+    let {pid} = req.params
+    let prodById = await product.getProductById(pid)
     res.send(prodById)
 })
-
-
 
 const PORT = 8080
 

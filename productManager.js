@@ -44,7 +44,7 @@ class ProductManager {
         let resp = await fs.promises.readFile(this.path, 'utf-8')
         const parseRes = JSON.parse(resp)
         const searchId = parseRes.find((elem) => {
-            return elem.id === id
+            return elem.id == id
         })
         return searchId;
     }
