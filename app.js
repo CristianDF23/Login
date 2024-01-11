@@ -55,7 +55,6 @@ app.get('/products', async (req, res) => {
         let limitProd = await product.limitQty(limit)
         res.send(limitProd)
     }
-
 })
 
 app.get('/products/:pid', async (req, res) => {
