@@ -1,0 +1,22 @@
+{
+  "name": "servidorexpress",
+  "version": "1.0.0",
+  "description": "Servidor creado con Express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CristianDF23/servidorExpress.git"
+  },
+  "author": "Cristian Fernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CristianDF23/servidorExpress/issues"
+  },
+  "homepage": "https://github.com/CristianDF23/servidorExpress#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
