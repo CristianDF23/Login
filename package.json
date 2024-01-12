@@ -2,9 +2,10 @@
   "name": "servidorexpress",
   "version": "1.0.0",
   "description": "Servidor creado con Express",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,6 @@
   "homepage": "https://github.com/CristianDF23/servidorExpress#readme",
   "dependencies": {
     "express": "^4.18.2"
-  }
+  },
+  "type": "module"
 }

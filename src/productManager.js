@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-class ProductManager {
+export default class ProductManager {
     constructor() {
         this.products = []
         this.path = './articles.json'
@@ -12,15 +12,14 @@ class ProductManager {
                 console.log("Complete todos los campos");
             } else {
                 if (fs.existsSync(this.path)) {
-                    const res = await fs.promises.readFile(this.path, 'utf-8');
-                    const parseRes = JSON.parse(res);
-                    const searchProduct = parseRes.some((i) => i.code === product.code);
+                    const res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'));
+                    const searchProduct = res.find((i) => i.code === product.code);
                     if (searchProduct) {
                         console.log("El código de producto ya se encuentra en la lista");
                     } else {
                         product.id = Math.floor(Math.random() * 1000000);
-                        parseRes.push(product);
-                        await fs.promises.writeFile(this.path, JSON.stringify(parseRes, null, 2), 'utf-8');
+                        res.push(product);
+                        await fs.promises.writeFile(this.path, JSON.stringify(res, null, 2), 'utf-8');
                         console.log("El producto fue agregado a la lista");
                     }
                 } else {
@@ -36,52 +35,37 @@ class ProductManager {
     }
 
     async getProducts() {
-        let res = await fs.promises.readFile(this.path, 'utf-8')
-        return JSON.parse(res)
+        let res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
+        return res
     }
 
     async getProductById(id) {
-        let resp = await fs.promises.readFile(this.path, 'utf-8')
-        const parseRes = JSON.parse(resp)
-        const searchId = parseRes.find((elem) => {
+        let res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
+        const searchId = res.find((elem) => {
             return elem.id == id
         })
         return searchId;
     }
 
-    async limitQty(number){
-        let resp = await fs.promises.readFile(this.path, 'utf-8')
-        const parseRes = JSON.parse(resp);
-        const limit = parseRes.slice(0, number)
+    async limitQty(number) {
+        let res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
+        const limit = res.slice(0, number)
         return limit
     }
 
-    deleteProduct(id) {
-        fs.promises.readFile(this.path, 'utf-8')
-            .then(res => {
-                const parseRes = JSON.parse(res)
-                const searchIndex = parseRes.findIndex(elem => elem.id === id)
-                const removeIndex = parseRes.splice(searchIndex, 1)
-                console.log(removeIndex);
-                fs.promises.writeFile(this.path, JSON.stringify(parseRes, null, 2), 'utf-8')
-            });
+    async deleteProduct(id) {
+        let res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
+        const searchIndex = res.filter(elem => elem.id !== id)
+        fs.promises.writeFile(this.path, JSON.stringify(searchIndex, null, 2), 'utf-8')
     }
 
-    updateProduct(id, propiedad, valor) {
-        fs.promises.readFile(this.path, 'utf-8')
-            .then(res => {
-                const parseRes = JSON.parse(res)
-                const searchIndex = parseRes.findIndex(elem => elem.id === id)
-                parseRes[searchIndex][propiedad] = valor;
-                fs.promises.writeFile(this.path, JSON.stringify(parseRes, null, 2), 'utf-8')
-            });
+    async updateProduct(id, propiedad, valor) {
+        let res = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
+        const searchIndex = res.findIndex(elem => elem.id === id)
+        res[searchIndex][propiedad] = valor;
+        fs.promises.writeFile(this.path, JSON.stringify(res, null, 2), 'utf-8')
     }
 }
-
-module.exports = ProductManager
-
-const newProduct = new ProductManager()
-
 
 // newProduct.addProducts({
 //     title: "producto 1",
